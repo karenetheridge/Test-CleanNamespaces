@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.04      2013-09-14 17:32:26Z (Karen Etheridge)
   - remove use of deprecated Class::MOP::load_class
 
 0.03   2010-05-07 22:29:00 +0200
