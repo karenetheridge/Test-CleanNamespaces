@@ -5,6 +5,7 @@ package Test::CleanNamespaces;
 # ABSTRACT: Check for uncleaned imports
 
 use Class::MOP;
+use Module::Runtime 'use_module';
 use Sub::Name 'subname';
 use Test::Builder;
 use File::Find::Rule;
@@ -80,7 +81,7 @@ sub build_namespaces_clean {
         local $@;
 
         for my $ns (@namespaces) {
-            unless (eval { Class::MOP::load_class($ns); 1 }) {
+            unless (eval { use_module($ns); 1 }) {
                 $class->builder->skip("failed to load ${ns}: $@");
                 next;
             }
