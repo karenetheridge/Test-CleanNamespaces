@@ -5,8 +5,7 @@ use Test::More;
 
 use Test::CleanNamespaces;
 
-use FindBin;
-use lib "$FindBin::Bin/lib";
+use lib 't/lib';
 
 {
     check_test(sub { namespaces_clean('Test::CleanNamespaces') }, {
