@@ -29,20 +29,21 @@ use lib 't/lib';
         or diag 'got result: ', explain(\@results);
 }
 
+foreach my $package (qw(Dirty SubDirty))
 {
-    my (undef, @results) = run_tests(sub { namespaces_clean('Dirty') });
+    my (undef, @results) = run_tests(sub { namespaces_clean($package) });
     cmp_results(
         \@results,
         [ {
             ok => 0,
-            name => 'Dirty contains no imported functions',
+            name => $package . ' contains no imported functions',
         } ],
-        'unclean namespace',
+        $package . ' has an unclean namespace',
     );
 
-    like($results[0]{diag}, qr/remaining imports/, 'diagnostic mentions "remaining imports"')
+    like($results[0]{diag}, qr/remaining imports/, $package . ': diagnostic mentions "remaining imports"')
         or diag 'got result: ', explain(\@results);
-    like($results[0]{diag}, qr/stuff/, 'diagnostic lists the remaining imports')
+    like($results[0]{diag}, qr/stuff/, $package . ': diagnostic lists the remaining imports')
         or diag 'got result: ', explain(\@results);
 }
 
