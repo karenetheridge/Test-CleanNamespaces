@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Test::Tester;
 use Test::More;
+use Test::Fatal;
 
 use Test::CleanNamespaces;
 
@@ -48,6 +49,12 @@ foreach my $package (qw(Dirty SubDirty))
 
     can_ok($package, 'method');
     is($package->callstuff, 'called stuff', $package . ' called stuff via other sub');
+
+    is(
+        exception { $package->stuff },
+        undef,
+        'can call stuff as a class method on ' . $package . ' - it was not cleaned',
+    );
 }
 
 foreach my $package (qw(Clean SubClean))
@@ -64,6 +71,12 @@ foreach my $package (qw(Clean SubClean))
 
     can_ok($package, 'method');
     is($package->callstuff, 'called stuff', $package . ' called stuff via other sub');
+
+    like(
+        exception { $package->stuff },
+        qr/Can't locate object method "stuff" via package "$package"/,
+        'cannot call stuff as a class method on ' . $package . ' - it was cleaned',
+    );
 }
 
 done_testing;
