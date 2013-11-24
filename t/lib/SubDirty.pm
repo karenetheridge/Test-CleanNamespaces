@@ -7,4 +7,6 @@ use SubExporterModule qw/stuff/;
 
 sub method { }
 
+sub callstuff { stuff(); 'called stuff' }
+
 1;

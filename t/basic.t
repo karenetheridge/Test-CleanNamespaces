@@ -45,6 +45,9 @@ foreach my $package (qw(Dirty SubDirty))
         or diag 'got result: ', explain(\@results);
     like($results[0]{diag}, qr/stuff/, $package . ': diagnostic lists the remaining imports')
         or diag 'got result: ', explain(\@results);
+
+    can_ok($package, 'method');
+    is($package->callstuff, 'called stuff', $package . ' called stuff via other sub');
 }
 
 done_testing;
