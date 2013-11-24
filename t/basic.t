@@ -50,4 +50,20 @@ foreach my $package (qw(Dirty SubDirty))
     is($package->callstuff, 'called stuff', $package . ' called stuff via other sub');
 }
 
+foreach my $package (qw(Clean SubClean))
+{
+    my (undef, @results) = run_tests(sub { namespaces_clean($package) });
+    cmp_results(
+        \@results,
+        [ {
+            ok => 1,
+            name => $package . ' contains no imported functions',
+        } ],
+        $package . ' has a clean namespace',
+    );
+
+    can_ok($package, 'method');
+    is($package->callstuff, 'called stuff', $package . ' called stuff via other sub');
+}
+
 done_testing;
