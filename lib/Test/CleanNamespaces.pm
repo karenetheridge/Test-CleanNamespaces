@@ -64,7 +64,7 @@ Runs C<namespaces_clean> for all modules in your distribution.
 =head1 METHODS
 
 The exported functions are constructed using the the following methods. This is
-what you want to override if you're subclassing this module..
+what you want to override if you're subclassing this module.
 
 =head2 build_namespaces_clean
 
