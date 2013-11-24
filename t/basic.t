@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::Tester tests => 21;
+use Test::Tester;
 use Test::More;
 
 use Test::CleanNamespaces;
@@ -32,3 +32,5 @@ use lib 't/lib';
     like($result->{diag}, qr/remaining imports/, 'diagnostic mentions "remaining imports"');
     like($result->{diag}, qr/stuff/, 'diagnostic lists the remaining imports');
 }
+
+done_testing;
