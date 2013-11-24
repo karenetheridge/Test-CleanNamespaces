@@ -41,7 +41,7 @@ BEGIN {
 
 This module lets you check your module's namespaces for imported functions you
 might have forgotten to remove with L<namespace::autoclean> or
-L<namespace::clean> and are therefor available to be called as methods, which
+L<namespace::clean> and are therefore available to be called as methods, which
 usually isn't want you want.
 
 =head1 FUNCTIONS
