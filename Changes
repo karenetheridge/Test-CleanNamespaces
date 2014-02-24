@@ -2,6 +2,7 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
   - lots more tests
+  - in failing tests, identify the source of the uncleaned sub(s)
 
 0.05      2013-09-25 03:34:13Z
   - re-release with fixed compile test

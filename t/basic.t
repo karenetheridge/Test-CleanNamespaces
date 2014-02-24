@@ -44,7 +44,8 @@ foreach my $package (qw(Dirty SubDirty))
 
     like($results[0]{diag}, qr/remaining imports/, $package . ': diagnostic mentions "remaining imports"')
         or diag 'got result: ', explain(\@results);
-    like($results[0]{diag}, qr/stuff/, $package . ': diagnostic lists the remaining imports')
+    like($results[0]{diag}, qr/'stuff'\s+=>\s+'(Sub)?ExporterModule::stuff'/,
+        $package . ': diagnostic lists the remaining imports')
         or diag 'got result: ', explain(\@results);
 
     can_ok($package, 'method');

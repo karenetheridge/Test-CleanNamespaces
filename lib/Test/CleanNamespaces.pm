@@ -7,6 +7,7 @@ package Test::CleanNamespaces;
 use Class::MOP;
 use Module::Runtime 'use_module';
 use Sub::Name 'subname';
+use Sub::Identify 'sub_fullname';
 use Test::Builder;
 use File::Find::Rule;
 use File::Find::Rule::Perl;
@@ -88,12 +89,14 @@ sub build_namespaces_clean {
 
             my $meta = Class::MOP::class_of($ns) || Class::MOP::Class->initialize($ns);
             my %methods = map { ($_ => 1) } $meta->get_method_list;
-            my @symbols = keys %{ $meta->get_all_package_symbols('CODE') || {} };
-            my @imports = grep { !$methods{$_} } @symbols;
+            my $symbols = $meta->get_all_package_symbols('CODE');
+            my @imports = grep { !$methods{$_} } keys %$symbols;
 
             $class->builder->ok(!@imports, "${ns} contains no imported functions");
+
+            my %imports; @imports{@imports} = map { sub_fullname($symbols->{$_}) } @imports;
             $class->builder->diag(
-                $class->builder->explain('remaining imports: ' => \@imports)
+                $class->builder->explain('remaining imports: ' => \%imports)
             ) if @imports;
         }
     };
