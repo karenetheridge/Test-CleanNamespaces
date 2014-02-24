@@ -80,4 +80,6 @@ foreach my $package (qw(Clean SubClean))
     );
 }
 
+ok(!exists($INC{'Class/MOP.pm'}), 'Class::MOP has not been loaded');
+
 done_testing;

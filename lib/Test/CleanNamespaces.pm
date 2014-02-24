@@ -4,15 +4,15 @@ use warnings;
 package Test::CleanNamespaces;
 # ABSTRACT: Check for uncleaned imports
 
-use Class::MOP;
 use Module::Runtime 'use_module';
 use Sub::Name 'subname';
-use Sub::Identify 'sub_fullname';
+use Sub::Identify qw(sub_fullname stash_name);
+use Package::Stash;
 use Test::Builder;
 use File::Find::Rule;
 use File::Find::Rule::Perl;
 use File::Spec::Functions 'splitdir';
-use namespace::autoclean;
+use namespace::clean;
 
 use Sub::Exporter -setup => {
     exports => [
@@ -87,10 +87,8 @@ sub build_namespaces_clean {
                 next;
             }
 
-            my $meta = Class::MOP::class_of($ns) || Class::MOP::Class->initialize($ns);
-            my %methods = map { ($_ => 1) } $meta->get_method_list;
-            my $symbols = $meta->get_all_package_symbols('CODE');
-            my @imports = grep { !$methods{$_} } keys %$symbols;
+            my $symbols = Package::Stash->new($ns)->get_all_symbols('CODE');
+            my @imports = grep { stash_name($symbols->{$_}) ne $ns } keys %$symbols;
 
             $class->builder->ok(!@imports, "${ns} contains no imported functions");
 
