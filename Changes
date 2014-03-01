@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.06      2014-03-01 19:14:39Z
   - lots more tests
   - in failing tests, identify the source of the uncleaned sub(s)
   - remove the dependency on Class::MOP by inspecting the package stash

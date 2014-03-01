@@ -4,7 +4,7 @@ Test::CleanNamespaces - Check for uncleaned imports
 
 # VERSION
 
-version 0.05
+version 0.06
 
 # SYNOPSIS
 
@@ -17,8 +17,8 @@ version 0.05
 # DESCRIPTION
 
 This module lets you check your module's namespaces for imported functions you
-might have forgotten to remove with [namespace::autoclean](http://search.cpan.org/perldoc?namespace::autoclean) or
-[namespace::clean](http://search.cpan.org/perldoc?namespace::clean) and are therefor available to be called as methods, which
+might have forgotten to remove with [namespace::autoclean](https://metacpan.org/pod/namespace::autoclean) or
+[namespace::clean](https://metacpan.org/pod/namespace::clean) and are therefore available to be called as methods, which
 usually isn't want you want.
 
 # FUNCTIONS
@@ -41,7 +41,7 @@ Runs `namespaces_clean` for all modules in your distribution.
 # METHODS
 
 The exported functions are constructed using the the following methods. This is
-what you want to override if you're subclassing this module..
+what you want to override if you're subclassing this module.
 
 ## build\_namespaces\_clean
 
@@ -79,3 +79,7 @@ This software is copyright (c) 2009 by Florian Ragwitz.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
+# CONTRIBUTOR
+
+Karen Etheridge <ether@cpan.org>
