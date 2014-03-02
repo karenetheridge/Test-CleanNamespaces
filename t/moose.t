@@ -8,34 +8,36 @@ use Test::CleanNamespaces;
 
 use lib 't/lib';
 
+foreach my $package (qw(MooseyDirty))
 {
-    my (undef, @results) = run_tests(sub { namespaces_clean('MooseyDirty') });
+    my (undef, @results) = run_tests(sub { namespaces_clean($package) });
     cmp_results(
         \@results,
         [ {
             ok => 0,
-            name => 'MooseyDirty contains no imported functions',
+            name => $package . ' contains no imported functions',
         } ],
-        'MooseyDirty has an unclean namespace',
+        $package . ' has an unclean namespace',
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
-    ok(MooseyDirty->can('refaddr'), 'refaddr import still available');
+    ok($package->can('refaddr'), 'refaddr import still available');
 }
 
+foreach my $package (qw(MooseyClean))
 {
-    my (undef, @results) = run_tests(sub { namespaces_clean('MooseyClean') });
+    my (undef, @results) = run_tests(sub { namespaces_clean($package) });
     cmp_results(
         \@results,
         [ {
             ok => 1,
-            name => 'MooseyClean contains no imported functions',
+            name => $package . ' contains no imported functions',
         } ],
-        'MooseyClean has a clean namespace',
+        $package . ' has a clean namespace',
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
-    ok(!MooseyClean->can('refaddr'), 'refaddr import not still available');
+    ok(!$package->can('refaddr'), 'refaddr import not still available');
 }
 
 done_testing;
