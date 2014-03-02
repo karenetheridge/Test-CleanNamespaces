@@ -28,7 +28,7 @@ foreach my $package (qw(MouseyDirty))
     ok($package->can('refaddr'), 'refaddr import still available');
 }
 
-foreach my $package (qw(MouseyClean))
+foreach my $package (qw(MouseyClean MouseyRole MouseyComposer))
 {
     my (undef, @results) = run_tests(sub { namespaces_clean($package) });
     cmp_results(
