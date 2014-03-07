@@ -8,6 +8,7 @@ use Module::Runtime 'use_module';
 use Sub::Name 'subname';
 use Sub::Identify qw(sub_fullname stash_name);
 use Package::Stash;
+use Module::Runtime 'module_notional_filename';
 use Test::Builder;
 use File::Find::Rule;
 use File::Find::Rule::Perl;
@@ -90,18 +91,19 @@ sub build_namespaces_clean {
             my $symbols = Package::Stash->new($ns)->get_all_symbols('CODE');
             my @imports;
 
-            if ($ns->isa('Moose::Object'))
+            my $meta;
+            if ($INC{ module_notional_filename('Moose::Util') }
+                and $meta = Moose::Util::find_meta($ns))
             {
-                my $meta = Moose::Util::find_meta($ns);
                 my %subs = %$symbols;
                 delete @subs{ $meta->get_method_list };
                 @imports = keys %subs;
             }
-            elsif ($ns->isa('Mouse::Object'))
+            elsif ($INC{ module_notional_filename('Mouse::Util') }
+                and $meta = Mouse::Util::class_of($ns))
             {
-                my $meta = Mouse::Util::class_of($ns);
                 my %subs = %$symbols;
-                delete @subs{ $meta->get_all_method_names };
+                delete @subs{ $meta->get_method_list };
                 @imports = keys %subs;
             }
             else
