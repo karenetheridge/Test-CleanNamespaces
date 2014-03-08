@@ -8,7 +8,7 @@ use Test::CleanNamespaces;
 
 use lib 't/lib';
 
-foreach my $package (qw(Role Composer))
+foreach my $package (qw(Clean Role Composer))
 {
     my (undef, @results) = run_tests(sub { namespaces_clean($package) });
     cmp_results(
@@ -21,7 +21,13 @@ foreach my $package (qw(Role Composer))
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
-    ok(!$package->can('refaddr'), 'refaddr import not still available');
+    ok($package->can('method'), 'method from base class is still available')
+        if $package eq 'Clean' or $package eq 'Composer';
+
+    ok($package->can('role_stuff'), 'role_stuff method from role is still available')
+        if $package eq 'Role';
+
+    ok(!$package->can($_), "$_ import not still available") foreach qw(refaddr weaken reftype);
 }
 
 done_testing;
