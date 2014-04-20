@@ -180,3 +180,18 @@ Returns the C<Test::Builder> used by the test functions.
 }
 
 1;
+__END__
+
+=head1 SEE ALSO
+
+=begin :list
+
+* L<namespace::clean>
+* L<namespace::autoclean>
+* L<namespace::sweep>
+* L<Sub::Exporter::ForMethods>
+* L<Test::API>
+
+=end :list
+
+=cut
