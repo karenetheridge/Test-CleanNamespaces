@@ -1,5 +1,7 @@
+/.ackrc
 /.build/
-!.gitignore
+!/.gitignore
 /.latest
-/Test-CleanNamespaces-*
+/Test-CleanNamespaces-*/
+/Test-CleanNamespaces-*.tar.gz
 /todo/
