@@ -15,6 +15,8 @@ Revision history for {{$dist->name}}
   - in failing tests, identify the source of the uncleaned sub(s)
   - remove the dependency on Class::MOP by inspecting the package stash
     directly
+ - line numbers in shipped code are now almost the same (within 3) as the
+   repository source, for easier debugging
 
 0.05      2013-09-25 03:34:13Z
   - re-release with fixed compile test
