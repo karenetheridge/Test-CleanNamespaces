@@ -5,7 +5,6 @@ package Test::CleanNamespaces;
 # ABSTRACT: Check for uncleaned imports
 
 use Module::Runtime 'require_module';
-use Sub::Name 'subname';
 use Sub::Identify qw(sub_fullname stash_name);
 use Package::Stash;
 use Module::Runtime 'module_notional_filename';
@@ -24,12 +23,6 @@ use Sub::Exporter -setup => {
         default => [qw/namespaces_clean all_namespaces_clean/],
     },
 };
-
-BEGIN {
-    # temporary hack to make import into a real named method until
-    # Sub::Exporter does it for us.
-    *import = subname __PACKAGE__ . '::import', \&import;
-}
 
 =head1 SYNOPSIS
 
