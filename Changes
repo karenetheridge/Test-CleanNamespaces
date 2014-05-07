@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.09      2014-05-07 05:06:58Z (TRIAL RELEASE)
   - increased version for optional Role::Tiny prereq, to get the needed
     is_role interface
   - now ignoring 'import', 'unimport' subs; also handle users of
