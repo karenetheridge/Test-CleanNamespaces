@@ -72,7 +72,8 @@ what you want to override if you're subclassing this module.
 
     my $coderef = Test::CleanNamespaces->build_namespaces_clean;
 
-Returns a coderef that will be exported as C<namespaces_clean>.
+Returns a coderef that will be exported as C<namespaces_clean> (or the
+specified sub name, if provided).
 
 =cut
 
@@ -130,7 +131,9 @@ sub build_namespaces_clean {
 
     my $coderef = Test::CleanNamespaces->build_namespaces_clean;
 
-Returns a coderef that will be exported as C<all_namespaces_clean>. It will use
+Returns a coderef that will be exported as C<all_namespaces_clean>.
+(or the specified sub name, if provided).
+It will use
 the C<find_modules> method to get the list of modules to check.
 
 =cut
