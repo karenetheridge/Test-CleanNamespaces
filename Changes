@@ -3,6 +3,8 @@ Revision history for {{$dist->name}}
 {{$NEXT}}
   - increased version for optional Role::Tiny prereq, to get the needed
     is_role interface
+  - now ignoring 'import', 'unimport' subs; also handle users of
+    Moose::Exporter without erroring
 
 0.08      2014-03-09 01:08:34Z
   - fixed method identification in Moose and Mouse roles

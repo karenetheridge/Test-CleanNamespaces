@@ -94,7 +94,8 @@ sub build_namespaces_clean {
 
             my $meta;
             if ($INC{ module_notional_filename('Moose::Util') }
-                and $meta = Moose::Util::find_meta($ns))
+                and $meta = Moose::Util::find_meta($ns)
+                and $meta->can('get_method_list'))
             {
                 my %subs = %$symbols;
                 delete @subs{ $meta->get_method_list };
@@ -117,9 +118,15 @@ sub build_namespaces_clean {
                 } keys %$symbols;
             }
 
-            $class->builder->ok(!@imports, "${ns} contains no imported functions");
-
             my %imports; @imports{@imports} = map { sub_fullname($symbols->{$_}) } @imports;
+
+            # these subs are special-cased - they are often provided by other
+            # modules, but cannot be wrapped with Sub::Name as the call stack
+            # is important
+            delete @imports{qw(import unimport)};
+
+            $class->builder->ok(!keys(%imports), "${ns} contains no imported functions");
+
             $class->builder->diag(
                 $class->builder->explain('remaining imports: ' => \%imports)
             ) if @imports;
