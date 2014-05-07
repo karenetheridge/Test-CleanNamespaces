@@ -120,6 +120,9 @@ sub build_namespaces_clean {
 
             my %imports; @imports{@imports} = map { sub_fullname($symbols->{$_}) } @imports;
 
+            my @overloads = grep { $imports{$_} eq 'overload::nil' } keys %imports;
+            delete @imports{@overloads} if @overloads;
+
             # these subs are special-cased - they are often provided by other
             # modules, but cannot be wrapped with Sub::Name as the call stack
             # is important
