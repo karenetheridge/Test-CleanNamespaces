@@ -120,19 +120,16 @@ sub build_namespaces_clean {
 
             my %imports; @imports{@imports} = map { sub_fullname($symbols->{$_}) } @imports;
 
-            my @overloads = grep { $imports{$_} eq 'overload::nil' } keys %imports;
-            delete @imports{@overloads} if @overloads;
-
             # these subs are special-cased - they are often provided by other
             # modules, but cannot be wrapped with Sub::Name as the call stack
             # is important
             delete @imports{qw(import unimport)};
 
-            $class->builder->ok(!keys(%imports), "${ns} contains no imported functions");
+            my @overloads = grep { $imports{$_} eq 'overload::nil' } keys %imports;
+            delete @imports{@overloads} if @overloads;
 
-            $class->builder->diag(
-                $class->builder->explain('remaining imports: ' => \%imports)
-            ) if keys %imports;
+            $class->builder->ok(!keys(%imports), "${ns} contains no imported functions")
+                or $class->builder->diag($class->builder->explain('remaining imports: ' => \%imports));
         }
     };
 }
