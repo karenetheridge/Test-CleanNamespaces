@@ -132,7 +132,7 @@ sub build_namespaces_clean {
 
             $class->builder->diag(
                 $class->builder->explain('remaining imports: ' => \%imports)
-            ) if @imports;
+            ) if keys %imports;
         }
     };
 }
