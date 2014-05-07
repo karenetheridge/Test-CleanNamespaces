@@ -6,6 +6,7 @@ Revision history for {{$dist->name}}
   - now ignoring 'import', 'unimport' subs; also handle users of
     Moose::Exporter without erroring
   - now ignoring overloaded methods
+  - now also properly handle classes using Class::MOP directly
 
 0.08      2014-03-09 01:08:34Z
   - fixed method identification in Moose and Mouse roles

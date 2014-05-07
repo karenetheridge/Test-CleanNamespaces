@@ -93,8 +93,8 @@ sub build_namespaces_clean {
             my @imports;
 
             my $meta;
-            if ($INC{ module_notional_filename('Moose::Util') }
-                and $meta = Moose::Util::find_meta($ns)
+            if ($INC{ module_notional_filename('Class::MOP') }
+                and $meta = Class::MOP::class_of($ns)
                 and $meta->can('get_method_list'))
             {
                 my %subs = %$symbols;
