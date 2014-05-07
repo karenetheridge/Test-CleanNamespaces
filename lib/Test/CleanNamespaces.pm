@@ -4,7 +4,7 @@ use warnings;
 package Test::CleanNamespaces;
 # ABSTRACT: Check for uncleaned imports
 
-use Module::Runtime 'use_module';
+use Module::Runtime 'require_module';
 use Sub::Name 'subname';
 use Sub::Identify qw(sub_fullname stash_name);
 use Package::Stash;
@@ -84,7 +84,7 @@ sub build_namespaces_clean {
         local $@;
 
         for my $ns (@namespaces) {
-            unless (eval { use_module($ns); 1 }) {
+            unless (eval { require_module($ns); 1 }) {
                 $class->builder->skip("failed to load ${ns}: $@");
                 next;
             }
