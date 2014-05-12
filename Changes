@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.10      2014-05-12 04:30:17Z (TRIAL RELEASE)
   - fix test diagnostics in the success case
   - fix use of a new Scalar::Util export in tests
 
