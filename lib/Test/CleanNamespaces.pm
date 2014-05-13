@@ -194,6 +194,9 @@ __END__
 * L<namespace::sweep>
 * L<Sub::Exporter::ForMethods>
 * L<Test::API>
+* L<Sub::Name>
+* L<Sub::Install>
+* L<MooseX::MarkAsMethods>
 
 =end :list
 
