@@ -21,7 +21,8 @@ foreach my $package (qw(MooyDirty))
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
-    ok($package->can('refaddr'), 'refaddr import still available');
+    ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
+    ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
 foreach my $package (qw(MooyClean MooyRole MooyComposer))
@@ -37,13 +38,8 @@ foreach my $package (qw(MooyClean MooyRole MooyComposer))
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
-    ok($package->can('stuff'), 'stuff method from base class is still available')
-        if $package eq 'MooClean' or $package eq 'MooComposer';
-
-    ok($package->can('role_stuff'), 'role_stuff method from role is still available')
-        if $package eq 'MooRole' or $package eq 'MooComposer';
-
-    ok(!$package->can($_), "$_ import not still available") foreach qw(refaddr weaken reftype);
+    ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
+    ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
 done_testing;

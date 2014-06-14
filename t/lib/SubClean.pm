@@ -9,4 +9,7 @@ sub method { }
 
 sub callstuff { stuff(); 'called stuff' }
 
+use constant CAN => [ qw(method callstuff) ];
+use constant CANT => [ qw(stuff) ];
+
 1;

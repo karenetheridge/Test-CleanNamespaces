@@ -10,4 +10,7 @@ use namespace::clean;
 
 sub child_stuff {}
 
+use constant CAN => [ qw(method) ];
+use constant CANT => [ qw(refaddr reftype weaken) ];
+
 1;

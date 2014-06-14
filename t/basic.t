@@ -2,7 +2,6 @@ use strict;
 use warnings FATAL => 'all';
 use Test::Tester;
 use Test::More;
-use Test::Fatal;
 
 use Test::CleanNamespaces;
 
@@ -48,14 +47,8 @@ foreach my $package (qw(Dirty SubDirty))
         $package . ': diagnostic lists the remaining imports')
         or diag 'got result: ', explain(\@results);
 
-    can_ok($package, 'method');
-    is($package->callstuff, 'called stuff', $package . ' called stuff via other sub');
-
-    is(
-        exception { $package->stuff },
-        undef,
-        'can call stuff as a class method on ' . $package . ' - it was not cleaned',
-    );
+    ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
+    ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
 foreach my $package (qw(Clean SubClean))
@@ -70,14 +63,8 @@ foreach my $package (qw(Clean SubClean))
         $package . ' has a clean namespace',
     );
 
-    can_ok($package, 'method');
-    is($package->callstuff, 'called stuff', $package . ' called stuff via other sub');
-
-    like(
-        exception { $package->stuff },
-        qr/Can't locate object method "stuff" via package "$package"/,
-        'cannot call stuff as a class method on ' . $package . ' - it was cleaned',
-    );
+    ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
+    ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
 ok(!exists($INC{'Class/MOP.pm'}), 'Class::MOP has not been loaded');

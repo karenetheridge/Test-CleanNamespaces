@@ -23,14 +23,8 @@ foreach my $package (qw(MooseyParameterizedRole MooseyParameterizedComposer))
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
-    ok($package->can('stuff'), 'stuff method from base class is still available')
-        if $package eq 'MooseyParameterizedComposer';
-
-    ok($package->can('role_stuff'), 'role_stuff method from role is still available');
-
-    ok(!$package->can('refaddr'), 'refaddr import not still available');
-
-    ok(!$package->can($_), "$_ import not still available") foreach qw(refaddr weaken reftype);
+    ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
+    ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
 done_testing;

@@ -21,7 +21,8 @@ foreach my $package (qw(ClassMOPDirty))
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
-    ok($package->can('refaddr'), 'refaddr import still available');
+    ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
+    ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
 foreach my $package (qw(ClassMOPClean))
@@ -37,13 +38,8 @@ foreach my $package (qw(ClassMOPClean))
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
-    ok($package->can('stuff'), 'stuff method from base class is still available')
-        if $package eq 'ClassMOPClean' or $package eq 'ClassMOPComposer';
-
-    ok($package->can('role_stuff'), 'role_stuff method from role is still available')
-        if $package eq 'ClassMOPRole' or $package eq 'ClassMOPComposer';
-
-    ok(!$package->can($_), "$_ import not still available") foreach qw(refaddr weaken reftype);
+    ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
+    ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
 ok(!exists($INC{'Moose.pm'}), 'Moose has not been loaded');

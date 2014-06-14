@@ -15,4 +15,7 @@ role {
 
 sub parameterized_role_stuff {}
 
+use constant CAN => [ qw(role_stuff) ];
+use constant CANT => [ qw(reftype) ];
+
 1;

@@ -22,4 +22,7 @@ use overload
     fallback => 1,
 ;
 
+use constant CAN => [ ];
+use constant CANT => [ qw(stuff) ];
+
 1;
