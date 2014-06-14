@@ -83,47 +83,10 @@ sub build_namespaces_clean {
                 next;
             }
 
-            my $symbols = Package::Stash->new($ns)->get_all_symbols('CODE');
-            my @imports;
+            my $imports = _remaining_imports($ns);
 
-            my $meta;
-            if ($INC{ module_notional_filename('Class::MOP') }
-                and $meta = Class::MOP::class_of($ns)
-                and $meta->can('get_method_list'))
-            {
-                my %subs = %$symbols;
-                delete @subs{ $meta->get_method_list };
-                @imports = keys %subs;
-            }
-            elsif ($INC{ module_notional_filename('Mouse::Util') }
-                and $meta = Mouse::Util::class_of($ns))
-            {
-                my %subs = %$symbols;
-                delete @subs{ $meta->get_method_list };
-                @imports = keys %subs;
-            }
-            else
-            {
-                @imports = grep {
-                    my $stash = stash_name($symbols->{$_});
-                    $stash ne $ns
-                        and $stash ne 'Role::Tiny'
-                        and not eval { require Role::Tiny; Role::Tiny->is_role($stash) }
-                } keys %$symbols;
-            }
-
-            my %imports; @imports{@imports} = map { sub_fullname($symbols->{$_}) } @imports;
-
-            # these subs are special-cased - they are often provided by other
-            # modules, but cannot be wrapped with Sub::Name as the call stack
-            # is important
-            delete @imports{qw(import unimport)};
-
-            my @overloads = grep { $imports{$_} eq 'overload::nil' } keys %imports;
-            delete @imports{@overloads} if @overloads;
-
-            $class->builder->ok(!keys(%imports), "${ns} contains no imported functions")
-                or $class->builder->diag($class->builder->explain('remaining imports: ' => \%imports));
+            $class->builder->ok(!keys(%$imports), "${ns} contains no imported functions")
+                or $class->builder->diag($class->builder->explain('remaining imports: ' => $imports));
         }
     };
 }
@@ -147,6 +110,53 @@ sub build_all_namespaces_clean {
         $class->builder->plan(tests => scalar @modules);
         $namespaces_clean->(@modules);
     };
+}
+
+# given a package name, returns a hashref of all remaining imports
+sub _remaining_imports {
+    my $ns = shift;
+
+    my $symbols = Package::Stash->new($ns)->get_all_symbols('CODE');
+    my @imports;
+
+    my $meta;
+    if ($INC{ module_notional_filename('Class::MOP') }
+        and $meta = Class::MOP::class_of($ns)
+        and $meta->can('get_method_list'))
+    {
+        my %subs = %$symbols;
+        delete @subs{ $meta->get_method_list };
+        @imports = keys %subs;
+    }
+    elsif ($INC{ module_notional_filename('Mouse::Util') }
+        and $meta = Mouse::Util::class_of($ns))
+    {
+        my %subs = %$symbols;
+
+        delete @subs{ $meta->get_method_list };
+        @imports = keys %subs;
+    }
+    else
+    {
+        @imports = grep {
+            my $stash = stash_name($symbols->{$_});
+            $stash ne $ns
+                and $stash ne 'Role::Tiny'
+                and not eval { require Role::Tiny; Role::Tiny->is_role($stash) }
+        } keys %$symbols;
+    }
+
+    my %imports; @imports{@imports} = map { sub_fullname($symbols->{$_}) } @imports;
+
+    # these subs are special-cased - they are often provided by other
+    # modules, but cannot be wrapped with Sub::Name as the call stack
+    # is important
+    delete @imports{qw(import unimport)};
+
+    my @overloads = grep { $imports{$_} eq 'overload::nil' } keys %imports;
+    delete @imports{@overloads} if @overloads;
+
+    return \%imports;
 }
 
 =head2 find_modules
