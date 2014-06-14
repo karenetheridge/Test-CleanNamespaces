@@ -42,4 +42,8 @@ foreach my $package (qw(MooyClean MooyRole MooyComposer))
     ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
+ok(!exists($INC{'Class/MOP.pm'}), 'Class::MOP has not been loaded');
+ok(!exists($INC{'Moose.pm'}), 'Moose has not been loaded');
+ok(!exists($INC{'Mouse.pm'}), 'Mouse has not been loaded');
+
 done_testing;
