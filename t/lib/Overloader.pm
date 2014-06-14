@@ -22,7 +22,7 @@ use overload
     fallback => 1,
 ;
 
-use constant CAN => [ ];
-use constant CANT => [ qw(stuff) ];
+use constant CAN => [ qw(new) ];
+use constant CANT => [ qw(stuff looks_like_number) ];
 
 1;

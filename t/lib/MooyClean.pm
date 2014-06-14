@@ -8,7 +8,7 @@ use namespace::clean;
 
 sub stuff {}
 
-use constant CAN => [ qw(stuff) ];
-use constant CANT => [ qw(refaddr weaken reftype) ];
+use constant CAN => [ qw(stuff meta) ];
+use constant CANT => [ qw(refaddr weaken reftype with) ];
 
 1;

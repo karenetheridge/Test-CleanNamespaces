@@ -9,6 +9,6 @@ use namespace::clean;
 sub role_stuff {}
 
 use constant CAN => [ qw(role_stuff) ];
-use constant CANT => [ qw(reftype reftype) ];
+use constant CANT => [ qw(reftype reftype with meta) ];
 
 1;

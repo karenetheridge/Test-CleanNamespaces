@@ -10,7 +10,7 @@ use namespace::clean;
 
 sub child_stuff {}
 
-use constant CAN => [ qw(stuff role_stuff) ];
-use constant CANT => [ qw(refaddr weaken reftype) ];
+use constant CAN => [ qw(stuff role_stuff child_stuff meta) ];
+use constant CANT => [ qw(refaddr weaken reftype has with parameter role) ];
 
 1;

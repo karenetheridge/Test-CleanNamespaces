@@ -7,7 +7,7 @@ use Scalar::Util 'refaddr';
 
 sub stuff {}
 
-use constant CAN => [ qw(stuff refaddr) ];
+use constant CAN => [ qw(stuff refaddr meta has with) ];
 use constant CANT => [ ];
 
 1;

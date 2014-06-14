@@ -17,6 +17,7 @@ use lib 't/lib';
         } ],
         'namespaces_clean success',
     );
+    diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 }
 
 {
@@ -27,6 +28,8 @@ use lib 't/lib';
 
     like($results[0]{reason}, qr/failed to load/, 'useful diagnostics on compilation fail')
         or diag 'got result: ', explain(\@results);
+
+    diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 }
 
 foreach my $package (qw(Dirty SubDirty))
@@ -47,11 +50,13 @@ foreach my $package (qw(Dirty SubDirty))
         $package . ': diagnostic lists the remaining imports')
         or diag 'got result: ', explain(\@results);
 
+    diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
+
     ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
     ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
-foreach my $package (qw(Clean SubClean))
+foreach my $package (qw(Clean SubClean ExporterModule SubExporterModule))
 {
     my (undef, @results) = run_tests(sub { namespaces_clean($package) });
     cmp_results(
@@ -62,6 +67,7 @@ foreach my $package (qw(Clean SubClean))
         } ],
         $package . ' has a clean namespace',
     );
+    diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
     ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
     ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
