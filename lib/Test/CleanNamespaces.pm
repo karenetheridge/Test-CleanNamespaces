@@ -54,7 +54,7 @@ be loaded it will be skipped.
 
     all_namespaces_clean;
 
-Runs C<namespaces_clean> for all modules in your distribution.
+Runs L</namespaces_clean> for all modules in your distribution.
 
 =head1 METHODS
 
@@ -129,7 +129,7 @@ sub build_namespaces_clean {
 
 =head2 build_all_namespaces_clean
 
-    my $coderef = Test::CleanNamespaces->build_namespaces_clean;
+    my $coderef = Test::CleanNamespaces->build_all_namespaces_clean;
 
 Returns a coderef that will be exported as C<all_namespaces_clean>.
 (or the specified sub name, if provided).
