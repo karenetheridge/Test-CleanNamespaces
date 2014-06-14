@@ -141,7 +141,7 @@ the C<find_modules> method to get the list of modules to check.
 
 sub build_all_namespaces_clean {
     my ($class, $name) = @_;
-    my $namespaces_clean = $class->build_namespaces_clean($name);
+    my $namespaces_clean = $class->build_namespaces_clean();
     return sub {
         my @modules = $class->find_modules(@_);
         $class->builder->plan(tests => scalar @modules);
