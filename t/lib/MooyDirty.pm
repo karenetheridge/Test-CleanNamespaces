@@ -9,5 +9,6 @@ sub stuff {}
 
 use constant CAN => [ qw(stuff refaddr meta has with) ];
 use constant CANT => [ ];
+use constant DIRTY => [ qw(refaddr has with) ];
 
 1;

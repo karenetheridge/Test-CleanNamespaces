@@ -51,7 +51,7 @@ foreach my $package (qw(Dirty SubDirty))
             ok => 0,
             name => $package . ' contains no imported functions',
         } ],
-        $package . ' has an unclean namespace',
+        $package . ' has an unclean namespace - found all uncleaned imports',
     );
 
     like($results[0]{diag}, qr/remaining imports/, $package . ': diagnostic mentions "remaining imports"')
