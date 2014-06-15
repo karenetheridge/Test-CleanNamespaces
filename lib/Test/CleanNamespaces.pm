@@ -5,10 +5,9 @@ package Test::CleanNamespaces;
 # ABSTRACT: Check for uncleaned imports
 # KEYWORDS: testing namespaces clean dirty imports exports subroutines methods
 
-use Module::Runtime 'require_module';
+use Module::Runtime qw(require_module module_notional_filename);
 use Sub::Identify qw(sub_fullname stash_name);
 use Package::Stash;
-use Module::Runtime 'module_notional_filename';
 use Test::Builder;
 use File::Find::Rule;
 use File::Find::Rule::Perl;
