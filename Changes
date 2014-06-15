@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - the return value of namespaces_clean() and all_namespaces_clean() is now
+    consistent with the result of the test(s).
 
 0.10      2014-05-12 04:30:17Z (TRIAL RELEASE)
   - fix test diagnostics in the success case

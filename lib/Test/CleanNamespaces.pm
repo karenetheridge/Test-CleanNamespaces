@@ -77,6 +77,7 @@ sub build_namespaces_clean {
         my (@namespaces) = @_;
         local $@;
 
+        my $result = 1;
         for my $ns (@namespaces) {
             unless (eval { require_module($ns); 1 }) {
                 $class->builder->skip("failed to load ${ns}: $@");
@@ -85,9 +86,13 @@ sub build_namespaces_clean {
 
             my $imports = _remaining_imports($ns);
 
-            $class->builder->ok(!keys(%$imports), "${ns} contains no imported functions")
-                or $class->builder->diag($class->builder->explain('remaining imports: ' => $imports));
+            my $ok = $class->builder->ok(!keys(%$imports), "${ns} contains no imported functions");
+            $ok or $class->builder->diag($class->builder->explain('remaining imports: ' => $imports));
+
+            $result &&= $ok;
         }
+
+        return $result;
     };
 }
 

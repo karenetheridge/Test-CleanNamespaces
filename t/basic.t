@@ -8,7 +8,8 @@ use Test::CleanNamespaces;
 use lib 't/lib';
 
 {
-    my (undef, @results) = run_tests(sub { namespaces_clean('Test::CleanNamespaces') });
+    my $return_value;
+    my (undef, @results) = run_tests(sub { $return_value = namespaces_clean('Test::CleanNamespaces') });
     cmp_results(
         \@results,
         [ {
@@ -17,11 +18,16 @@ use lib 't/lib';
         } ],
         'namespaces_clean success',
     );
+
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
+
+
+    ok($return_value, 'returned true');
 }
 
 {
-    my (undef, @results) = check_test(sub { namespaces_clean('DoesNotCompile') }, {
+    my $return_value;
+    my (undef, @results) = check_test(sub { $return_value = namespaces_clean('DoesNotCompile') }, {
         ok => 1,
         type => 'skip',
     }, 'namespace_clean compilation fail');
@@ -30,11 +36,15 @@ use lib 't/lib';
         or diag 'got result: ', explain(\@results);
 
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
+
+    # meh, we could return true or false here...
+    ok($return_value, 'returned true');
 }
 
 foreach my $package (qw(Dirty SubDirty))
 {
-    my (undef, @results) = run_tests(sub { namespaces_clean($package) });
+    my $return_value;
+    my (undef, @results) = run_tests(sub { $return_value = namespaces_clean($package) });
     cmp_results(
         \@results,
         [ {
@@ -52,13 +62,16 @@ foreach my $package (qw(Dirty SubDirty))
 
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
 
+    ok(!$return_value, 'returned false');
+
     ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
     ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
 }
 
 foreach my $package (qw(Clean SubClean ExporterModule SubExporterModule))
 {
-    my (undef, @results) = run_tests(sub { namespaces_clean($package) });
+    my $return_value;
+    my (undef, @results) = run_tests(sub { $return_value = namespaces_clean($package) });
     cmp_results(
         \@results,
         [ {
@@ -68,6 +81,8 @@ foreach my $package (qw(Clean SubClean ExporterModule SubExporterModule))
         $package . ' has a clean namespace',
     );
     diag 'got result: ', explain(\@results) if not Test::Builder->new->is_passing;
+
+    ok($return_value, 'returned true');
 
     ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };
     ok(!$package->can($_), "cannot do $package->$_") foreach @{ $package->CANT };
