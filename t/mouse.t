@@ -6,7 +6,7 @@ use Test::More;
 
 BEGIN {
     local $ENV{RELEASE_TESTING};    # so Test::Requires does not die if Mouse not installed
-    use Test::Requires 'Mouse';
+    use Test::Requires { 'Mouse' => '()' };
 }
 use Test::CleanNamespaces;
 

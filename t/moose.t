@@ -3,7 +3,7 @@ use warnings FATAL => 'all';
 
 use Test::Tester;
 use Test::More;
-use Test::Requires 'Moose';
+use Test::Requires { 'Moose' => '()' };
 use Test::CleanNamespaces;
 
 use lib 't/lib';
