@@ -16,12 +16,28 @@ use lib 't/lib';
 foreach my $package (qw(MouseyDirty))
 {
     require_module($package);
+
+    local $TODO = 'Mouse::Meta::Module::get_method_list does not track method origin';
+    my $imports = Test::CleanNamespaces::_remaining_imports($package);
+
     cmp_deeply(
-        Test::CleanNamespaces::_remaining_imports($package),
+        $imports,
         superhashof({
             map { $_ => ignore } @{ $package->DIRTY },
         }),
         $package . ' has an unclean namespace - found all uncleaned imports',
+    );
+
+    undef $TODO;
+
+    # run the test again without TODO, except we overlook the failure to
+    # detect the File::Spec::Functions::catdir import
+    cmp_deeply(
+        $imports,
+        superhashof({
+            map { $_ => ignore } grep { $_ ne 'catdir' } @{ $package->DIRTY },
+        }),
+        $package . ' has an unclean namespace - found the Mouse-specific uncleaned imports',
     );
 
     ok($package->can($_), "can do $package->$_") foreach @{ $package->CAN };

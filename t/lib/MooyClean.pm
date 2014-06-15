@@ -3,12 +3,12 @@ use warnings;
 package MooyClean;
 
 use Moo;
-use Scalar::Util 'refaddr';
+use File::Spec::Functions 'catdir';
 use namespace::clean;
 
 sub stuff {}
 
 use constant CAN => [ qw(stuff meta) ];
-use constant CANT => [ qw(refaddr weaken reftype with) ];
+use constant CANT => [ qw(catdir catfile devnull with) ];
 
 1;

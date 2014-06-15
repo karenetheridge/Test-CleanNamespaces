@@ -3,7 +3,7 @@ use warnings;
 package SubClean;
 
 use SubExporterModule qw/stuff/;
-use Scalar::Util 'refaddr';
+use File::Spec::Functions 'catdir';
 use namespace::clean;   # clean 'stuff' at end of compilation
 
 sub method { }
@@ -11,6 +11,6 @@ sub method { }
 sub callstuff { stuff(); 'called stuff' }
 
 use constant CAN => [ qw(method callstuff) ];
-use constant CANT => [ qw(stuff refaddr) ];
+use constant CANT => [ qw(stuff catdir) ];
 
 1;

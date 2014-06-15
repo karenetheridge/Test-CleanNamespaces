@@ -3,12 +3,12 @@ use warnings;
 package MooseyRole;
 
 use Moose::Role;
-use Scalar::Util 'reftype';
+use File::Spec::Functions 'devnull';
 use namespace::clean;
 
 sub role_stuff {}
 
 use constant CAN => [ qw(role_stuff) ];
-use constant CANT => [ qw(reftype reftype with meta) ];
+use constant CANT => [ qw(devnull devnull with meta) ];
 
 1;

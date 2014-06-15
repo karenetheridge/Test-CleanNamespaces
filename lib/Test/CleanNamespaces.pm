@@ -135,8 +135,10 @@ sub _remaining_imports {
     elsif ($INC{ module_notional_filename('Mouse::Util') }
         and $meta = Mouse::Util::class_of($ns))
     {
-        my %subs = %$symbols;
+        warn 'Mouse class detected - chance of false negatives is high!';
 
+        my %subs = %$symbols;
+        # ugh, this returns far more than the true list of methods
         delete @subs{ $meta->get_method_list };
         @imports = keys %subs;
     }
@@ -199,6 +201,14 @@ Returns the C<Test::Builder> used by the test functions.
 
 1;
 __END__
+
+=head1 KNOWN ISSUES
+
+Uncleaned imports from L<Mouse> classes are incompletely detected, due to its
+lack of ability to return the correct method list -- it assumes that all subs
+are meant to be callable as methods unless they originated from (were imported
+by) one of: L<Mouse>, L<Mouse::Role>, L<Mouse::Util>,
+L<Mouse::Util::TypeConstraints>, L<Carp>, L<Scalar::Util>, or L<List::Util>.
 
 =head1 SEE ALSO
 
