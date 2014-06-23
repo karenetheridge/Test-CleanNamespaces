@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - bump (optional) prereq on Moo to get some fixes for handling roles
 
 0.12      2014-06-18 01:58:18Z
   - also special case constant subs, which show up in the symbol table before
