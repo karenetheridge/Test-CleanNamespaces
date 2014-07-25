@@ -228,6 +228,7 @@ L<Mouse::Util::TypeConstraints>, L<Carp>, L<Scalar::Util>, or L<List::Util>.
 * L<Sub::Name>
 * L<Sub::Install>
 * L<MooseX::MarkAsMethods>
+* L<Dist::Zilla::Plugin::Test::CleanNamespaces>
 
 =end :list
 
