@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - remove accidental dependency on Class::MOP (which turned into a circular
+    dependency with Moose-2.1211)
 
 0.13      2014-06-24 19:14:03Z
   - bump (optional) prereq on Moo to get some fixes for handling roles
