@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.14      2014-08-11 21:44:34Z
   - remove accidental dependency on Class::MOP (which turned into a circular
     dependency with Moose-2.1211)
 

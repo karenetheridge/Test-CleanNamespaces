@@ -1,0 +1,146 @@
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+Test::CleanNamespaces - Check for uncleaned imports
+
+=head1 VERSION
+
+version 0.14
+
+=head1 SYNOPSIS
+
+    use strict;
+    use warnings;
+    use Test::CleanNamespaces;
+
+    all_namespaces_clean;
+
+=head1 DESCRIPTION
+
+This module lets you check your module's namespaces for imported functions you
+might have forgotten to remove with L<namespace::autoclean> or
+L<namespace::clean> and are therefore available to be called as methods, which
+usually isn't want you want.
+
+=head1 FUNCTIONS
+
+All functions are exported by default.
+
+=head2 namespaces_clean
+
+    namespaces_clean('YourModule', 'AnotherModule');
+
+Tests every specified namespace for uncleaned imports. If the module couldn't
+be loaded it will be skipped.
+
+=head2 all_namespaces_clean
+
+    all_namespaces_clean;
+
+Runs L</namespaces_clean> for all modules in your distribution.
+
+=head1 METHODS
+
+The exported functions are constructed using the the following methods. This is
+what you want to override if you're subclassing this module.
+
+=head2 build_namespaces_clean
+
+    my $coderef = Test::CleanNamespaces->build_namespaces_clean;
+
+Returns a coderef that will be exported as C<namespaces_clean> (or the
+specified sub name, if provided).
+
+=head2 build_all_namespaces_clean
+
+    my $coderef = Test::CleanNamespaces->build_all_namespaces_clean;
+
+Returns a coderef that will be exported as C<all_namespaces_clean>.
+(or the specified sub name, if provided).
+It will use
+the C<find_modules> method to get the list of modules to check.
+
+=head2 find_modules
+
+    my @modules = Test::CleanNamespaces->find_modules;
+
+Returns a list of modules in the current distribution. It'll search in
+C<blib/>, if it exists. C<lib/> will be searched otherwise.
+
+=head2 builder
+
+    my $builder = Test::CleanNamespaces->builder;
+
+Returns the C<Test::Builder> used by the test functions.
+
+=head1 KNOWN ISSUES
+
+Uncleaned imports from L<Mouse> classes are incompletely detected, due to its
+lack of ability to return the correct method list -- it assumes that all subs
+are meant to be callable as methods unless they originated from (were imported
+by) one of: L<Mouse>, L<Mouse::Role>, L<Mouse::Util>,
+L<Mouse::Util::TypeConstraints>, L<Carp>, L<Scalar::Util>, or L<List::Util>.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item *
+
+L<namespace::clean>
+
+=item *
+
+L<namespace::autoclean>
+
+=item *
+
+L<namespace::sweep>
+
+=item *
+
+L<Sub::Exporter::ForMethods>
+
+=item *
+
+L<Test::API>
+
+=item *
+
+L<Sub::Name>
+
+=item *
+
+L<Sub::Install>
+
+=item *
+
+L<MooseX::MarkAsMethods>
+
+=item *
+
+L<Dist::Zilla::Plugin::Test::CleanNamespaces>
+
+=back
+
+=head1 AUTHOR
+
+Florian Ragwitz <rafl@debian.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2009 by Florian Ragwitz.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=head1 CONTRIBUTOR
+
+=for stopwords Florian Ragwitz
+
+Florian Ragwitz <rafl@debian.org>
+
+=cut
