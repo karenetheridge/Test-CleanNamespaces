@@ -7,7 +7,7 @@ package Test::CleanNamespaces;
 
 use Module::Runtime qw(require_module module_notional_filename);
 use Sub::Identify qw(sub_fullname stash_name);
-use Package::Stash;
+use Package::Stash 0.14;
 use Test::Builder;
 use File::Find::Rule;
 use File::Find::Rule::Perl;
