@@ -218,8 +218,7 @@ L<Mouse::Util::TypeConstraints>, L<Carp>, L<Scalar::Util>, or L<List::Util>.
 
 =head1 SEE ALSO
 
-=begin :list
-
+=for :list
 * L<namespace::clean>
 * L<namespace::autoclean>
 * L<namespace::sweep>
@@ -229,7 +228,5 @@ L<Mouse::Util::TypeConstraints>, L<Carp>, L<Scalar::Util>, or L<List::Util>.
 * L<Sub::Install>
 * L<MooseX::MarkAsMethods>
 * L<Dist::Zilla::Plugin::Test::CleanNamespaces>
-
-=end :list
 
 =cut
