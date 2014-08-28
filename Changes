@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - skip Moose-related tests for normal installs, to get out of circularity
+    hell if Moose is installed but broken and needing an upgrade
 
 0.15      2014-08-16 00:18:15Z
   - bump Package::Stash prereq to ensure used methods are available
