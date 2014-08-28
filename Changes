@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.16      2014-08-28 23:55:47Z
   - skip Moose-related tests for normal installs, to get out of circularity
     hell if Moose is installed but broken and needing an upgrade
 
