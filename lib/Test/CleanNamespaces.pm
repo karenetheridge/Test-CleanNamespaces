@@ -159,7 +159,7 @@ sub _remaining_imports {
     # is important
     delete @imports{qw(import unimport)};
 
-    my @overloads = grep { $imports{$_} eq 'overload::nil' } keys %imports;
+    my @overloads = grep { $imports{$_} eq 'overload::nil' || $imports{$_} eq 'overload::_nil' } keys %imports;
     delete @imports{@overloads} if @overloads;
 
     if ($] < 5.010)
