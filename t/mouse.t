@@ -8,6 +8,9 @@ use Test::Deep;
 use Module::Runtime 'require_module';
 use Test::CleanNamespaces;
 
+plan skip_all => 'at least Mouse 0.37_01 required, for class_of()'
+    if not Mouse::Util->can('class_of');
+
 use lib 't/lib';
 
 foreach my $package (qw(MouseyDirty))

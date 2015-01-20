@@ -133,7 +133,7 @@ sub _remaining_imports {
         @imports = keys %subs;
     }
     elsif ($INC{ module_notional_filename('Mouse::Util') }
-        and $meta = Mouse::Util::class_of($ns))
+        and Mouse::Util->can('class_of') and $meta = Mouse::Util::class_of($ns))
     {
         warn 'Mouse class detected - chance of false negatives is high!';
 
