@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+  - remove Moose test requires <-> Test::CleanNamespaces test recommends
+    circular relationship (softened to suggests)
 
 0.17      2015-01-20 03:46:46Z
   - skip Mouse tests if some required interfaces are not available
