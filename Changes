@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.18      2015-01-21 03:54:30Z
   - remove Moose test requires <-> Test::CleanNamespaces test recommends
     circular relationship (softened to suggests)
 
