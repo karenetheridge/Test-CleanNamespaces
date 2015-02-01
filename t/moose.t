@@ -1,5 +1,5 @@
 use strict;
-use warnings FATAL => 'all';
+use warnings;
 
 use Test::More;
 plan skip_all => 'skipping for regular installs, due to possible circular dependency issues'

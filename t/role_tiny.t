@@ -1,5 +1,5 @@
 use strict;
-use warnings FATAL => 'all';
+use warnings;
 
 use Test::More;
 use Test::Requires { 'Role::Tiny' => '1.003000' };
