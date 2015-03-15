@@ -1,9 +1,10 @@
 use strict;
 use warnings;
-
 package Test::CleanNamespaces;
 # ABSTRACT: Check for uncleaned imports
 # KEYWORDS: testing namespaces clean dirty imports exports subroutines methods
+
+our $VERSION = '0.19';
 
 use Module::Runtime qw(require_module module_notional_filename);
 use Sub::Identify qw(sub_fullname stash_name);
