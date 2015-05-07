@@ -6,14 +6,13 @@ package Test::CleanNamespaces;
 
 our $VERSION = '0.19';
 
-use Module::Runtime qw(require_module module_notional_filename);
-use Sub::Identify qw(sub_fullname stash_name);
+use Module::Runtime ();
+use Sub::Identify ();
 use Package::Stash 0.14;
 use Test::Builder;
-use File::Find::Rule;
-use File::Find::Rule::Perl;
-use File::Spec::Functions 'splitdir';
-use namespace::clean;
+use File::Find::Rule ();
+use File::Find::Rule::Perl ();
+use File::Spec;
 
 use Sub::Exporter -setup => {
     exports => [
@@ -79,7 +78,7 @@ sub build_namespaces_clean {
 
         my $result = 1;
         for my $ns (@namespaces) {
-            unless (eval { require_module($ns); 1 }) {
+            unless (eval { Module::Runtime::require_module($ns); 1 }) {
                 $class->builder->skip("failed to load ${ns}: $@");
                 next;
             }
@@ -125,7 +124,7 @@ sub _remaining_imports {
     my @imports;
 
     my $meta;
-    if ($INC{ module_notional_filename('Class::MOP') }
+    if ($INC{ Module::Runtime::module_notional_filename('Class::MOP') }
         and $meta = Class::MOP::class_of($ns)
         and $meta->can('get_method_list'))
     {
@@ -133,7 +132,7 @@ sub _remaining_imports {
         delete @subs{ $meta->get_method_list };
         @imports = keys %subs;
     }
-    elsif ($INC{ module_notional_filename('Mouse::Util') }
+    elsif ($INC{ Module::Runtime::module_notional_filename('Mouse::Util') }
         and Mouse::Util->can('class_of') and $meta = Mouse::Util::class_of($ns))
     {
         warn 'Mouse class detected - chance of false negatives is high!';
@@ -146,14 +145,14 @@ sub _remaining_imports {
     else
     {
         @imports = grep {
-            my $stash = stash_name($symbols->{$_});
+            my $stash = Sub::Identify::stash_name($symbols->{$_});
             $stash ne $ns
                 and $stash ne 'Role::Tiny'
                 and not eval { require Role::Tiny; Role::Tiny->is_role($stash) }
         } keys %$symbols;
     }
 
-    my %imports; @imports{@imports} = map { sub_fullname($symbols->{$_}) } @imports;
+    my %imports; @imports{@imports} = map { Sub::Identify::sub_fullname($symbols->{$_}) } @imports;
 
     # these subs are special-cased - they are often provided by other
     # modules, but cannot be wrapped with Sub::Name as the call stack
@@ -188,7 +187,7 @@ sub find_modules {
             ? s/^blib.(?:lib|arch).//
             : s/^lib.//;
         s/\.pm$//;
-        join '::' => splitdir($_);
+        join '::' => File::Spec->splitdir($_);
     } File::Find::Rule->perl_module->in(-e 'blib' ? 'blib' : 'lib');
     return @modules;
 }
