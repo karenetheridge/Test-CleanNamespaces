@@ -5,7 +5,7 @@ package ExporterModule;
 use Scalar::Util 'dualvar';
 use namespace::clean;
 
-use Exporter 'import';
+use Exporter 5.57 'import';
 our @EXPORT_OK = qw(stuff);
 
 sub stuff { }
