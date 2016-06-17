@@ -1,6 +1,6 @@
 Revision history for Test-CleanNamespaces
 
-{{$NEXT}}
+0.19      2016-06-17 05:00:35Z
   - removed dependencies on namespace::clean, Sub::Exporter, File::Find::Rule
 
 0.18      2015-01-21 03:54:30Z
