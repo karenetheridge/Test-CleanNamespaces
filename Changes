@@ -1,6 +1,7 @@
 Revision history for Test-CleanNamespaces
 
 {{$NEXT}}
+  - removed dependencies on namespace::clean, Sub::Exporter, File::Find::Rule
 
 0.18      2015-01-21 03:54:30Z
   - remove Moose test requires <-> Test::CleanNamespaces test recommends
