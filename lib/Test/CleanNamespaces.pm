@@ -10,15 +10,11 @@ use Module::Runtime ();
 use Sub::Identify ();
 use Package::Stash 0.14;
 use Test::Builder;
-use File::Find::Rule ();
-use File::Find::Rule::Perl ();
+use File::Find ();
 use File::Spec;
 
-use Sub::Exporter -setup => {
-    exports => [
-        namespaces_clean     => \&build_namespaces_clean,
-        all_namespaces_clean => \&build_all_namespaces_clean,
-    ],
+use Sub::Exporter::Progressive -setup => {
+    exports => [ qw(namespaces_clean all_namespaces_clean) ],
     groups => {
         default => [qw/namespaces_clean all_namespaces_clean/],
     },
@@ -70,30 +66,30 @@ specified sub name, if provided).
 
 =cut
 
-sub build_namespaces_clean {
-    my ($class, $name) = @_;
-    return sub {
-        my (@namespaces) = @_;
-        local $@;
+sub namespaces_clean {
+    my (@namespaces) = @_;
+    local $@;
+    my $builder = builder();
 
-        my $result = 1;
-        for my $ns (@namespaces) {
-            unless (eval { Module::Runtime::require_module($ns); 1 }) {
-                $class->builder->skip("failed to load ${ns}: $@");
-                next;
-            }
-
-            my $imports = _remaining_imports($ns);
-
-            my $ok = $class->builder->ok(!keys(%$imports), "${ns} contains no imported functions");
-            $ok or $class->builder->diag($class->builder->explain('remaining imports: ' => $imports));
-
-            $result &&= $ok;
+    my $result = 1;
+    for my $ns (@namespaces) {
+        unless (eval { Module::Runtime::require_module($ns); 1 }) {
+            $builder->skip("failed to load ${ns}: $@");
+            next;
         }
 
-        return $result;
-    };
+        my $imports = _remaining_imports($ns);
+
+        my $ok = $builder->ok(!keys(%$imports), "${ns} contains no imported functions");
+        $ok or $builder->diag($builder->explain('remaining imports: ' => $imports));
+
+        $result &&= $ok;
+    }
+
+    return $result;
 }
+
+sub build_namespaces_clean { \&namespaces_clean }
 
 =head2 build_all_namespaces_clean
 
@@ -106,15 +102,13 @@ the C<find_modules> method to get the list of modules to check.
 
 =cut
 
-sub build_all_namespaces_clean {
-    my ($class, $name) = @_;
-    my $namespaces_clean = $class->build_namespaces_clean();
-    return sub {
-        my @modules = $class->find_modules(@_);
-        $class->builder->plan(tests => scalar @modules);
-        $namespaces_clean->(@modules);
-    };
+sub all_namespaces_clean {
+    my @modules = find_modules(@_);
+    builder()->plan(tests => scalar @modules);
+    namespaces_clean(@modules);
 }
+
+sub build_all_namespaces_clean { \&all_namespaces_clean }
 
 # given a package name, returns a hashref of all remaining imports
 sub _remaining_imports {
@@ -181,14 +175,19 @@ C<blib/>, if it exists. C<lib/> will be searched otherwise.
 =cut
 
 sub find_modules {
-    my ($class) = @_;
-    my @modules = map {
-        /^blib/
-            ? s/^blib.(?:lib|arch).//
-            : s/^lib.//;
-        s/\.pm$//;
-        join '::' => File::Spec->splitdir($_);
-    } File::Find::Rule->perl_module->in(-e 'blib' ? 'blib' : 'lib');
+    my @modules;
+    for my $top (-e 'blib' ? ('blib/lib', 'blib/arch') : 'lib') {
+        File::Find::find({
+            no_chdir => 1,
+            wanted => sub {
+                my $file = $_;
+                return
+                    unless $file =~ s/\.pm$//;
+                $file = File::Spec->abs2rel($file, $top);
+                push @modules, join '::' => File::Spec->splitdir($_);
+            },
+        }, $top);
+    }
     return @modules;
 }
 
