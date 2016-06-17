@@ -10,8 +10,7 @@ use Module::Runtime ();
 use Sub::Identify ();
 use Package::Stash 0.14;
 use Test::Builder;
-use File::Find::Rule ();
-use File::Find::Rule::Perl ();
+use File::Find ();
 use File::Spec;
 
 use Sub::Exporter -setup => {
@@ -181,14 +180,19 @@ C<blib/>, if it exists. C<lib/> will be searched otherwise.
 =cut
 
 sub find_modules {
-    my ($class) = @_;
-    my @modules = map {
-        /^blib/
-            ? s/^blib.(?:lib|arch).//
-            : s/^lib.//;
-        s/\.pm$//;
-        join '::' => File::Spec->splitdir($_);
-    } File::Find::Rule->perl_module->in(-e 'blib' ? 'blib' : 'lib');
+    my @modules;
+    for my $top (-e 'blib' ? ('blib/lib', 'blib/arch') : 'lib') {
+        File::Find::find({
+            no_chdir => 1,
+            wanted => sub {
+                my $file = $_;
+                return
+                    unless $file =~ s/\.pm$//;
+                $file = File::Spec->abs2rel($file, $top);
+                push @modules, join '::' => File::Spec->splitdir($_);
+            },
+        }, $top);
+    }
     return @modules;
 }
 
