@@ -13,12 +13,8 @@ use Test::Builder;
 use File::Find ();
 use File::Spec;
 
-use Sub::Exporter::Progressive -setup => {
-    exports => [ qw(namespaces_clean all_namespaces_clean) ],
-    groups => {
-        default => [qw/namespaces_clean all_namespaces_clean/],
-    },
-};
+use Exporter 5.57 'import';
+our @EXPORT = qw(namespaces_clean all_namespaces_clean);
 
 =head1 SYNOPSIS
 
@@ -52,18 +48,6 @@ be loaded it will be skipped.
 
 Runs L</namespaces_clean> for all modules in your distribution.
 
-=head1 METHODS
-
-The exported functions are constructed using the the following methods. This is
-what you want to override if you're subclassing this module.
-
-=head2 build_namespaces_clean
-
-    my $coderef = Test::CleanNamespaces->build_namespaces_clean;
-
-Returns a coderef that will be exported as C<namespaces_clean> (or the
-specified sub name, if provided).
-
 =cut
 
 sub namespaces_clean {
@@ -89,26 +73,11 @@ sub namespaces_clean {
     return $result;
 }
 
-sub build_namespaces_clean { \&namespaces_clean }
-
-=head2 build_all_namespaces_clean
-
-    my $coderef = Test::CleanNamespaces->build_all_namespaces_clean;
-
-Returns a coderef that will be exported as C<all_namespaces_clean>.
-(or the specified sub name, if provided).
-It will use
-the C<find_modules> method to get the list of modules to check.
-
-=cut
-
 sub all_namespaces_clean {
     my @modules = find_modules(@_);
     builder()->plan(tests => scalar @modules);
     namespaces_clean(@modules);
 }
-
-sub build_all_namespaces_clean { \&all_namespaces_clean }
 
 # given a package name, returns a hashref of all remaining imports
 sub _remaining_imports {
