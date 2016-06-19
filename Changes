@@ -1,5 +1,7 @@
 Revision history for Test-CleanNamespaces
 
+{{$NEXT}}
+
 0.20      2016-06-19 02:41:02Z (TRIAL RELEASE)
   - switch to plain old Exporter, removing build_* subs from the API,
 
