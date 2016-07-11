@@ -125,7 +125,7 @@ sub _remaining_imports {
     my @overloads = grep { $imports{$_} eq 'overload::nil' || $imports{$_} eq 'overload::_nil' } keys %imports;
     delete @imports{@overloads} if @overloads;
 
-    if ($] < 5.010)
+    if ("$]" < 5.010)
     {
         my @constants = grep { $imports{$_} eq 'constant::__ANON__' } keys %imports;
         delete @imports{@constants} if @constants;
