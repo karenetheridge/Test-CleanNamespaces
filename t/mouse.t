@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More 0.88;
 use Test::Warnings 0.009 ':no_end_test', ':all';
-use Test::Requires { 'Mouse' => '()' };
+use Test::Needs 'Mouse';
 use Test::Deep;
 use Module::Runtime 'require_module';
 use Test::CleanNamespaces;

@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More 0.88;
 use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
-use Test::Requires { 'Moo' => '1.000007' };
+use Test::Needs { 'Moo' => '1.000007' };
 use Test::Deep;
 use Module::Runtime 'require_module';
 use Test::CleanNamespaces;

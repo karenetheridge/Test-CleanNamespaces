@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More 0.88;
-use Test::Requires { 'Role::Tiny' => '1.003000' };
+use Test::Needs { 'Role::Tiny' => '1.003000' };
 use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Deep;
 use Module::Runtime 'require_module';

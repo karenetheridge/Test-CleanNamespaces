@@ -5,7 +5,7 @@ use Test::More 0.88;
 plan skip_all => 'skipping for regular installs, due to possible circular dependency issues'
     unless $ENV{AUTHOR_TESTING} || $ENV{AUTOMATED_TESTING};
 
-use Test::Requires { 'Moose' => '()' };
+use Test::Needs 'Moose';
 use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Deep;
 use Module::Runtime 'require_module';

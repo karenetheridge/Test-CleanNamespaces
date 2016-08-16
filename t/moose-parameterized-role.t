@@ -5,8 +5,7 @@ use Test::More 0.88;
 plan skip_all => 'skipping for regular installs, due to possible circular dependency issues'
     unless $ENV{AUTHOR_TESTING} || $ENV{AUTOMATED_TESTING};
 
-# blech! but Test::Requires does a stringy eval, so this works...
-use Test::Requires { 'Moose' => '()', 'MooseX::Role::Parameterized' => '()' };
+use Test::Needs { 'Moose' => 0, 'MooseX::Role::Parameterized' => 0 };
 
 use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Deep;
