@@ -152,8 +152,9 @@ sub find_modules {
                 my $file = $_;
                 return
                     unless $file =~ s/\.pm$//;
-                $file = File::Spec->abs2rel($file, $top);
-                push @modules, join '::' => File::Spec->splitdir($_);
+                push @modules, join '::' => File::Spec->splitdir(
+                    File::Spec->abs2rel(File::Spec->rel2abs($file, '.'), $top)
+                );
             },
         }, $top);
     }
