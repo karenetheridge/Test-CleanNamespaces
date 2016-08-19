@@ -1,5 +1,7 @@
 Revision history for Test-CleanNamespaces
 
+{{$NEXT}}
+
 0.22      2016-08-19 03:45:32Z
   - properly find the list of modules to test (regression since 0.19)
 
