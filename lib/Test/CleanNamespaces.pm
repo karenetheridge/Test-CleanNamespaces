@@ -4,7 +4,7 @@ package Test::CleanNamespaces;
 # ABSTRACT: Check for uncleaned imports
 # KEYWORDS: testing namespaces clean dirty imports exports subroutines methods
 
-our $VERSION = '0.23';
+our $VERSION = '0.24';
 
 use Module::Runtime ();
 use Sub::Identify ();
