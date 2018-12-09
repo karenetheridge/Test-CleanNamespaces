@@ -1,6 +1,6 @@
 Revision history for Test-CleanNamespaces
 
-{{$NEXT}}
+0.24      2018-12-09 20:20:01Z
   - fix detection of constant subs on some platforms for perls [5.10,5.20)
 
 0.23      2018-06-26 00:00:13Z
