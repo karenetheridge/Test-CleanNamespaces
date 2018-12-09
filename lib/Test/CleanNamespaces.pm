@@ -125,7 +125,7 @@ sub _remaining_imports {
     my @overloads = grep { $imports{$_} eq 'overload::nil' || $imports{$_} eq 'overload::_nil' } keys %imports;
     delete @imports{@overloads} if @overloads;
 
-    if ("$]" < 5.018)
+    if ("$]" < 5.020)
     {
         # < haarg> 5.10+ allows sticking a readonly scalar ref directly in the symbol table, rather than a glob.  when auto-promoted to a sub, it will have the correct name.
         # < haarg> but that only works if the symbol table entry is empty
