@@ -1,6 +1,7 @@
 Revision history for Test-CleanNamespaces
 
 {{$NEXT}}
+  - placeholder - DO NOT MERGE of course
 
 0.23      2018-06-26 00:00:13Z
   - properly skip potentially-problematic tests when needed, due to circular
