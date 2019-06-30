@@ -21,7 +21,7 @@ foreach my $package (qw(MooseyDirty))
     cmp_deeply(
         Test::CleanNamespaces::_remaining_imports($package),
         superhashof({
-            map { $_ => ignore } @{ $package->DIRTY },
+            map +($_ => ignore), @{ $package->DIRTY },
         }),
         $package . ' has an unclean namespace - found all uncleaned imports',
     );

@@ -115,14 +115,14 @@ sub _remaining_imports {
         } keys %$symbols;
     }
 
-    my %imports; @imports{@imports} = map { Sub::Identify::sub_fullname($symbols->{$_}) } @imports;
+    my %imports; @imports{@imports} = map Sub::Identify::sub_fullname($symbols->{$_}), @imports;
 
     # these subs are special-cased - they are often provided by other
     # modules, but cannot be wrapped with Sub::Name as the call stack
     # is important
     delete @imports{qw(import unimport)};
 
-    my @overloads = grep { $imports{$_} eq 'overload::nil' || $imports{$_} eq 'overload::_nil' } keys %imports;
+    my @overloads = grep $imports{$_} eq 'overload::nil' || $imports{$_} eq 'overload::_nil', keys %imports;
     delete @imports{@overloads} if @overloads;
 
     if ("$]" < 5.020)
@@ -133,7 +133,7 @@ sub _remaining_imports {
         # < haarg> newer versions don't use that method
         # < haarg> rather, newer versions of constant.pm don't use that method
         # < haarg> and then the name ends up being YourPackage::__ANON__
-        my @constants = grep { $imports{$_} eq 'constant::__ANON__' } keys %imports;
+        my @constants = grep $imports{$_} eq 'constant::__ANON__', keys %imports;
         delete @imports{@constants} if @constants;
     }
 

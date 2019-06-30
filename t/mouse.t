@@ -23,7 +23,7 @@ foreach my $package (qw(MouseyDirty))
     cmp_deeply(
         $imports,
         superhashof({
-            map { $_ => ignore } @{ $package->DIRTY },
+            map +($_ => ignore), @{ $package->DIRTY },
         }),
         $package . ' has an unclean namespace - found all uncleaned imports',
     );
@@ -35,7 +35,7 @@ foreach my $package (qw(MouseyDirty))
     cmp_deeply(
         $imports,
         superhashof({
-            map { $_ => ignore } grep { $_ ne 'catdir' } @{ $package->DIRTY },
+            map +($_ => ignore), grep $_ ne 'catdir', @{ $package->DIRTY },
         }),
         $package . ' has an unclean namespace - found the Mouse-specific uncleaned imports',
     );
